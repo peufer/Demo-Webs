@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JevoleCoffee | Demo Web</title>
+    <meta
+      name="description"
+      content="Demo visual para JevoleCoffee, cafetería de especialidad y brunch con encanto en Alicante."
+    />
+    <style>
+      :root {
+        --bg: #f4ecdf;
+        --bg-2: #eadcc9;
+        --paper: #fbf6ef;
+        --ink: #1b1712;
+        --muted: #665a4f;
+        --line: rgba(27, 23, 18, 0.12);
+        --accent: #835031;
+        --accent-2: #b98358;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          linear-gradient(180deg, rgba(255,255,255,.25), transparent 24%),
+          linear-gradient(180deg, #efe5d7 0%, var(--bg) 38%, #f6f0e7 100%);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      a { color: inherit; text-decoration: none; }
+      .shell { max-width: 1220px; margin: 0 auto; padding: 0 20px; }
+      .header {
+        position: sticky; top: 0; z-index: 20;
+        backdrop-filter: blur(14px);
+        background: rgba(244,236,223,.74);
+        border-bottom: 1px solid var(--line);
+      }
+      .header-inner {
+        min-height: 76px;
+        display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      }
+      .brand {
+        font: 700 clamp(30px, 3vw, 42px)/1 Georgia, "Times New Roman", serif;
+      }
+      .nav {
+        display: flex; gap: 18px;
+        font-size: 14px; color: rgba(27,23,18,.78);
+      }
+      .hero {
+        min-height: calc(100svh - 76px);
+        display: grid;
+        align-items: center;
+        padding: 42px 0 30px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr .9fr;
+        gap: 28px;
+        align-items: stretch;
+      }
+      .hero-copy {
+        padding: 18px 0;
+      }
+      .eyebrow,
+      .section-label,
+      .mini-card span,
+      .stat span {
+        text-transform: uppercase;
+        letter-spacing: .15rem;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      h1, h2, h3 { margin: 0; line-height: .95; }
+      h1, h2, h3 {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+      h1 {
+        margin-top: 14px;
+        font-size: clamp(64px, 10vw, 132px);
+      }
+      .lead {
+        margin: 16px 0 0;
+        font-size: clamp(24px, 2vw, 34px);
+      }
+      .hero-text,
+      .body,
+      .mini-card p,
+      .panel p,
+      .practical p,
+      .note {
+        line-height: 1.8;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      .actions {
+        display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px;
+      }
+      .button {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 52px; padding: 0 20px; font-size: 14px; transition: .22s ease;
+      }
+      .button:hover { transform: translateY(-2px); }
+      .button-solid {
+        background: var(--ink); color: #f8f2e9;
+      }
+      .button-ghost {
+        border: 1px solid rgba(27,23,18,.18);
+        background: transparent;
+      }
+      .hero-art {
+        min-height: 640px;
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(131,80,49,.94), rgba(56,43,34,.94)),
+          linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+        color: #f8f2e9;
+      }
+      .hero-art::before,
+      .hero-art::after {
+        content: "";
+        position: absolute;
+        inset: auto;
+        border: 1px solid rgba(255,255,255,.18);
+      }
+      .hero-art::before {
+        width: 58%;
+        height: 44%;
+        right: -8%;
+        top: 10%;
+      }
+      .hero-art::after {
+        width: 44%;
+        height: 34%;
+        left: -6%;
+        bottom: 12%;
+      }
+      .art-inner {
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: 28px;
+        position: relative;
+        z-index: 1;
+      }
+      .art-top {
+        display: flex; justify-content: space-between; gap: 12px; align-items: start;
+      }
+      .art-tag {
+        font-size: 12px;
+        padding: 10px 12px;
+        border: 1px solid rgba(255,255,255,.18);
+      }
+      .art-center {
+        display: flex;
+        align-items: center;
+      }
+      .art-center p {
+        max-width: 360px;
+        font: 400 clamp(24px, 3vw, 42px)/1.08 Georgia, "Times New Roman", serif;
+        margin: 0;
+      }
+      .art-bottom {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .stat {
+        padding-top: 14px;
+        border-top: 1px solid rgba(255,255,255,.18);
+      }
+      .stat strong {
+        display: block;
+        margin-top: 8px;
+        font: 600 18px/1.3 Arial, Helvetica, sans-serif;
+      }
+      section.block {
+        padding: 84px 0;
+        border-top: 1px solid var(--line);
+      }
+      .intro {
+        display: grid;
+        grid-template-columns: 1.2fr .8fr;
+        gap: 30px;
+        align-items: start;
+      }
+      h2 {
+        font-size: clamp(42px, 5vw, 78px);
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 28px;
+      }
+      .mini-card {
+        min-height: 260px;
+        padding: 20px;
+        border-top: 1px solid var(--ink);
+        background: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,.08));
+      }
+      h3 {
+        margin-top: 14px;
+        font-size: 32px;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: .96fr 1.04fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+      .panel,
+      .practical,
+      .quote-panel {
+        background: var(--paper);
+        border: 1px solid rgba(27,23,18,.06);
+      }
+      .panel {
+        min-height: 480px;
+        padding: 28px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+      .panel-large {
+        font: 400 clamp(34px, 4vw, 56px)/1.02 Georgia, "Times New Roman", serif;
+        max-width: 540px;
+      }
+      .quote-panel {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+      }
+      .quote {
+        padding-left: 16px;
+        border-left: 2px solid var(--accent);
+        font-size: 18px;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+      .practical {
+        padding: 30px;
+      }
+      dl {
+        margin: 26px 0 0;
+        display: grid;
+        gap: 16px;
+      }
+      dl div {
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+      dt {
+        text-transform: uppercase;
+        letter-spacing: .15rem;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      dd {
+        margin: 8px 0 0;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .final {
+        padding: 96px 0 110px;
+      }
+      .final h2 {
+        max-width: 940px;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity .6s ease, transform .6s ease;
+      }
+      .reveal.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (max-width: 960px) {
+        .hero-grid,
+        .intro,
+        .grid-3,
+        .split {
+          grid-template-columns: 1fr;
+        }
+        .hero-art { min-height: 480px; }
+      }
+      @media (max-width: 680px) {
+        .nav { display: none; }
+        .actions { flex-direction: column; }
+        .button { width: 100%; }
+        .art-bottom { grid-template-columns: 1fr; }
+        section.block,
+        .final { padding-top: 64px; padding-bottom: 72px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="shell header-inner">
+        <a class="brand" href="#top">JevoleCoffee</a>
+        <nav class="nav">
+          <a href="#esencia">Esencia</a>
+          <a href="#sabores">Sabores</a>
+          <a href="#copy">Copy</a>
+          <a href="#visita">Visítanos</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero shell">
+        <div class="hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Propuesta visual no oficial</p>
+            <h1>JevoleCoffee</h1>
+            <p class="lead">Café con calma, brunch con encanto.</p>
+            <p class="hero-text">
+              Una web pensada para que el sitio transmita desde el primer segundo
+              lo que ya se intuye al descubrirlo: un lugar bonito, cuidado y con
+              personalidad propia en Alicante.
+            </p>
+            <div class="actions">
+              <a class="button button-solid" href="#visita">Ver la propuesta</a>
+              <a class="button button-ghost" href="https://www.instagram.com/jevolecoffee/" target="_blank" rel="noreferrer">Ver Instagram</a>
+            </div>
+          </div>
+
+          <div class="hero-art reveal">
+            <div class="art-inner">
+              <div class="art-top">
+                <div class="art-tag">Alicante</div>
+                <div class="art-tag">Brunch y café especial</div>
+              </div>
+              <div class="art-center">
+                <p>
+                  Un rincón al que apetece ir antes incluso de mirar el mapa.
+                </p>
+              </div>
+              <div class="art-bottom">
+                <div class="stat">
+                  <span>Lo que vende</span>
+                  <strong>Café, tostadas, brunch y pausa</strong>
+                </div>
+                <div class="stat">
+                  <span>Lo que transmite</span>
+                  <strong>Calma, gusto y cercanía</strong>
+                </div>
+                <div class="stat">
+                  <span>Lo que falta</span>
+                  <strong>Una web propia a la altura</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="shell intro reveal" id="esencia">
+          <div>
+            <p class="section-label">La idea</p>
+            <h2>No vender solo café. Vender el momento de venir.</h2>
+          </div>
+          <div class="body">
+            <p>
+              JevoleCoffee ya transmite cosas muy buenas: café cuidado, brunch,
+              tostadas apetecibles, ambiente acogedor y ese punto de sitio al
+              que apetece volver.
+            </p>
+            <p>
+              La web tendría que juntar todo eso en una presencia propia, limpia
+              y cálida, para que quien la descubra entienda rápido por qué merece
+              la visita.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="shell reveal" id="sabores">
+          <p class="section-label">Qué pondría en primer plano</p>
+          <h2>Lo que más apetece ver nada más entrar.</h2>
+          <div class="grid-3">
+            <article class="mini-card">
+              <span>01</span>
+              <h3>Café de especialidad</h3>
+              <p>
+                El punto de partida. Tazas bien hechas, sabor cuidado y una
+                experiencia que se nota desde la primera visita.
+              </p>
+            </article>
+            <article class="mini-card">
+              <span>02</span>
+              <h3>Tostadas y brunch</h3>
+              <p>
+                Una parte fuerte de la propuesta. Perfecta para enseñar producto
+                real, combinaciones y momentos de desayuno con intención.
+              </p>
+            </article>
+            <article class="mini-card">
+              <span>03</span>
+              <h3>Zumos, dulce y pausa</h3>
+              <p>
+                El detalle que completa la experiencia: algo fresco, algo rico
+                y un espacio donde quedarse más de lo previsto.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="shell split reveal" id="copy">
+          <div class="panel">
+            <p class="section-label">Copy principal</p>
+            <p class="panel-large">
+              Desayunos que entran primero por los ojos y luego por rutina.
+            </p>
+            <p class="body">
+              El tono no debería sonar forzado ni demasiado gourmet. Lo que mejor
+              le va al sitio es una voz cercana, elegante y sencilla.
+            </p>
+            <div class="note">
+              Cafés especiales, tostadas que apetecen de verdad, algo dulce para
+              alargar el momento y un ambiente al que siempre apetece volver.
+            </div>
+          </div>
+          <div class="quote-panel">
+            <p class="section-label">Texto de apoyo</p>
+            <p class="quote">
+              “JevoleCoffee es ese rincón de Alicante donde un buen café, un
+              brunch bonito y un ambiente cálido hacen que quedarse un rato más
+              sea parte del plan.”
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="shell split reveal" id="visita">
+          <div class="practical">
+            <p class="section-label">Información útil</p>
+            <h2>La parte práctica, clara y sin fricción.</h2>
+            <p>
+              Una web propia también sirve para no depender de perfiles o fichas
+              de terceros cuando alguien solo quiere saber dónde está el local y
+              por qué merece la pena acercarse.
+            </p>
+            <dl>
+              <div>
+                <dt>Ubicación</dt>
+                <dd>C. José Gutiérrez Petén, 29, 03004 Alicante</dd>
+              </div>
+              <div>
+                <dt>Qué destacaría</dt>
+                <dd>Café de especialidad, brunch, tostadas, zumos y ambiente</dd>
+              </div>
+              <div>
+                <dt>Presencia actual</dt>
+                <dd>Instagram y fichas públicas, sin web propia clara</dd>
+              </div>
+            </dl>
+          </div>
+          <div class="panel">
+            <p class="section-label">Llamadas a la acción</p>
+            <p class="panel-large">
+              Una visita tendría que estar a un toque de distancia.
+            </p>
+            <div class="actions">
+              <a class="button button-solid" href="https://www.google.com/maps/search/?api=1&query=C.+Jos%C3%A9+Guti%C3%A9rrez+Pet%C3%A9n,+29,+03004+Alicante" target="_blank" rel="noreferrer">Cómo llegar</a>
+              <a class="button button-ghost" href="https://www.instagram.com/jevolecoffee/" target="_blank" rel="noreferrer">Abrir Instagram</a>
+            </div>
+            <p class="note">
+              Demo visual: la idea es enseñar cómo podría presentarse mejor el
+              negocio en una web propia.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell final reveal">
+        <p class="section-label">Cierre</p>
+        <h2>JevoleCoffee merece una web que dé ganas de ir antes de mirar el mapa.</h2>
+        <div class="actions">
+          <a class="button button-solid" href="#top">Volver arriba</a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const nodes = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("on");
+        });
+      }, { threshold: 0.15 });
+      nodes.forEach((node) => observer.observe(node));
+    </script>
+  </body>
+</html>
